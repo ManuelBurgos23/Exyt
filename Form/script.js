@@ -17,7 +17,7 @@ document.getElementById("usuarioForm").addEventListener("submit", async (event) 
     };
     console.log("JSON enviado:", JSON.stringify(usuario, null, 2));
     try{
-        let response = await fetch(`${API_URL}/registro`, {
+        let response = await fetch(`${API_URL}/registrar`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
