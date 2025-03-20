@@ -1,4 +1,4 @@
-from pydantic import BaseModel , field_validator 
+from pydantic import BaseModel , field_validator, EmailStr
 import re
 from datetime import datetime
 
@@ -8,15 +8,16 @@ class Usuario(BaseModel):
     nombre: str
     apellidos: str
     dni: str
-    email: str
+    email: EmailStr
     fecha_nac: str
     
     #Validar datos
-    @field_validator("dni")
-    def validar_dni(dni):
+    @field_validator("dni" , mode="before")
+    @classmethod
+    def validar_dni(cls, dni: str) -> str: 
         dniRegex = re.compile(r"^\d{8}[A-Z]$")
-        if dniRegex.match(dni) == None:
-            raise ValueError("DNI inválido")
+        if not dniRegex.match(dni):
+            raise ValueError("DNI inválido. Debe tener 8 números seguidos de una letra mayúscula.")
         return dni
     @field_validator("email")
     def email_valido(email):
@@ -28,7 +29,7 @@ class Usuario(BaseModel):
         try:
             datetime.strptime(fecha_nac, "%Y-%m-%d")
         except ValueError:
-            raise ValueError("Formato de fecha inválido, debe ser dd/mm/aaaa")
+            raise ValueError("Formato de fecha inválido, debe ser YYYY/MM/DD")
         return fecha_nac
     @field_validator("nombre")
     def nombre_valido(nombre):

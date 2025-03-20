@@ -15,20 +15,18 @@ app = FastAPI()
 # Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # O especifica ["http://localhost:4200"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Registrar routers con prefijos
+# Registra los routers
 app.include_router(register_router, tags=["Registro"])
 app.include_router(list_users_router, tags=["Usuarios"])
 app.include_router(actualizar_usuario, tags=["Actualizar"])
 app.include_router(consultar_usuario, tags=["Consultar"])
 app.include_router(delete_user_router, tags=["Eliminar"])
-
-
 
 # Iniciar la app
 if __name__ == "__main__":

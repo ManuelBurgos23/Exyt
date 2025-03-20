@@ -3,6 +3,7 @@ from connectdb import db
 
 router = APIRouter()
 
+#endpoint para eliminar un usuario por su dni
 @router.delete("/eliminar")
 async def eliminar_usuario(dni: str):
     doc_ref = db.collection("usuarios").document(dni)
